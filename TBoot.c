@@ -23,7 +23,7 @@ void (*jumpToApp)(void) = 0x0000;
 unsigned int bufferIndex = 0;
 unsigned int pageIndex = 1;
 unsigned char checksum;
-
+unsigned int timeF = 0;
 #define serialReceiveReady()  (UCSR0A & (1<<RXC0))
 #define serialDataRegisterReady()  (UCSR0A & (1<<UDRE0))
 #define serialReceiveNow()  (UDR0)
@@ -42,7 +42,6 @@ void initUSART(void) {                                /* requires BAUD */
   UCSR0C = (3 << UCSZ00);   /* 8 data bits, 1 stop bit */
 }
 
-
 unsigned char serialReceive(void)
 {
   loop_until_bit_is_set(UCSR0A, RXC0);       /* Wait for incoming data */
@@ -56,15 +55,18 @@ void serialTransmit(unsigned char byte)
   UDR0 = byte;  
 }
 
-
-
 unsigned char* getInputBuffer() {
 	unsigned char inputBuffer [128];
 	unsigned char input;
+	serialTransmit('^');
+	if(timeF == 0) {
+		serialReceive();
+		timeF++;
+	}
 	do {
 		input = serialReceive();
 		inputBuffer[bufferIndex] = input;
-		serialTransmit('*');
+		serialTransmit(input);
 		serialReceive();
 		bufferIndex ++;
 	} while(input != '*');
@@ -73,7 +75,6 @@ unsigned char* getInputBuffer() {
 
 unsigned char getHex(unsigned char* pageBuffer) {
 	unsigned char data = pageBuffer[pageIndex];
-	serialTransmit(data);
 	if(data >= 'A') {
 		data -= 'A' - 10;
 	} else {
@@ -99,7 +100,7 @@ int main(void) {
 	while(1) {
 	    unsigned char in = serialReceive();
 	    serialTransmit('*');
-	    serialReceive();
+	    //serialReceive();
 	    if(in == 'u') {
 	    	unsigned char memory[SPM_PAGESIZE];
 	    	unsigned int address;
@@ -117,7 +118,7 @@ int main(void) {
 	    		unsigned char* pageBuffer = getInputBuffer();
 	    		
 	    		if(pageBuffer[0] != ':') {
-	    			serialTransmit('E');
+	    			serialTransmit('E:');
 	    			goto top;
 	    		}
 	    		

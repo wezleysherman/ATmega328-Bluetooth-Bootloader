@@ -184,7 +184,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00003c00      0x374
+.text           0x00003c00      0x386
  *(.vectors)
  .vectors       0x00003c00       0x68 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm168.o
                 0x00003c00                __vectors
@@ -279,24 +279,24 @@ END GROUP
                 0x00003cd6        0xe TBoot.o
                 0x00003cd6                serialTransmit
  .text.getInputBuffer
-                0x00003ce4       0x70 TBoot.o
+                0x00003ce4       0x98 TBoot.o
                 0x00003ce4                getInputBuffer
- .text.getHex   0x00003d54       0x3a TBoot.o
-                0x00003d54                getHex
+ .text.getHex   0x00003d7c       0x28 TBoot.o
+                0x00003d7c                getHex
  .text.getBootData
-                0x00003d8e       0x2c TBoot.o
-                0x00003d8e                getBootData
+                0x00003da4       0x2c TBoot.o
+                0x00003da4                getBootData
  .text.startup.main
-                0x00003dba      0x1a8 TBoot.o
-                0x00003dba                main
+                0x00003dd0      0x1a4 TBoot.o
+                0x00003dd0                main
  .text.avr-libc
-                0x00003f62        0xe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libc.a(memset.o)
-                0x00003f62                memset
-                0x00003f70                . = ALIGN (0x2)
+                0x00003f74        0xe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libc.a(memset.o)
+                0x00003f74                memset
+                0x00003f82                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00003f70        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_exit.o)
-                0x00003f70                exit
-                0x00003f70                _exit
+ .fini9         0x00003f82        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_exit.o)
+                0x00003f82                exit
+                0x00003f82                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -315,11 +315,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00003f70        0x4 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_exit.o)
+ .fini0         0x00003f82        0x4 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_exit.o)
  *(.fini0)
-                0x00003f74                _etext = .
+                0x00003f86                _etext = .
 
-.data           0x00800100        0x2 load address 0x00003f74
+.data           0x00800100        0x2 load address 0x00003f86
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800100        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm168.o
@@ -340,29 +340,31 @@ END GROUP
                 0x00800102                _edata = .
                 0x00800102                PROVIDE (__data_end, .)
 
-.bss            0x00800102        0x5
+.bss            0x00800102        0x7
                 0x00800102                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
+ .bss.timeF     0x00800102        0x2 TBoot.o
+                0x00800102                timeF
  .bss.bufferIndex
-                0x00800102        0x2 TBoot.o
-                0x00800102                bufferIndex
- .bss.jumpToApp
                 0x00800104        0x2 TBoot.o
-                0x00800104                jumpToApp
+                0x00800104                bufferIndex
+ .bss.jumpToApp
+                0x00800106        0x2 TBoot.o
+                0x00800106                jumpToApp
  *(COMMON)
- COMMON         0x00800106        0x1 TBoot.o
-                0x00800106                checksum
-                0x00800107                PROVIDE (__bss_end, .)
-                0x00003f74                __data_load_start = LOADADDR (.data)
-                0x00003f76                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x00800108        0x1 TBoot.o
+                0x00800108                checksum
+                0x00800109                PROVIDE (__bss_end, .)
+                0x00003f86                __data_load_start = LOADADDR (.data)
+                0x00003f88                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800107        0x0
-                0x00800107                PROVIDE (__noinit_start, .)
+.noinit         0x00800109        0x0
+                0x00800109                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x00800107                PROVIDE (__noinit_end, .)
-                0x00800107                _end = .
-                0x00800107                PROVIDE (__heap_start, .)
+                0x00800109                PROVIDE (__noinit_end, .)
+                0x00800109                _end = .
+                0x00800109                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -433,42 +435,42 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0x70d
+.debug_info     0x00000000      0x721
  *(.debug_info)
- .debug_info    0x00000000      0x4d3 TBoot.o
- .debug_info    0x000004d3       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_exit.o)
- .debug_info    0x00000591       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_copy_data.o)
- .debug_info    0x0000064f       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_clear_bss.o)
+ .debug_info    0x00000000      0x4e7 TBoot.o
+ .debug_info    0x000004e7       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_exit.o)
+ .debug_info    0x000005a5       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_copy_data.o)
+ .debug_info    0x00000663       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_clear_bss.o)
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x00000000      0x229
+.debug_abbrev   0x00000000      0x245
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x1ed TBoot.o
- .debug_abbrev  0x000001ed       0x14 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_exit.o)
- .debug_abbrev  0x00000201       0x14 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_copy_data.o)
- .debug_abbrev  0x00000215       0x14 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_clear_bss.o)
+ .debug_abbrev  0x00000000      0x209 TBoot.o
+ .debug_abbrev  0x00000209       0x14 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_exit.o)
+ .debug_abbrev  0x0000021d       0x14 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_copy_data.o)
+ .debug_abbrev  0x00000231       0x14 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_clear_bss.o)
 
-.debug_line     0x00000000      0x287
+.debug_line     0x00000000      0x289
  *(.debug_line)
- .debug_line    0x00000000      0x170 TBoot.o
- .debug_line    0x00000170        0x0 ../../AVR-Programming-Library/USART.o
- .debug_line    0x00000170       0x58 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_exit.o)
- .debug_line    0x000001c8       0x61 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_copy_data.o)
- .debug_line    0x00000229       0x5e /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_clear_bss.o)
+ .debug_line    0x00000000      0x172 TBoot.o
+ .debug_line    0x00000172        0x0 ../../AVR-Programming-Library/USART.o
+ .debug_line    0x00000172       0x58 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_exit.o)
+ .debug_line    0x000001ca       0x61 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_copy_data.o)
+ .debug_line    0x0000022b       0x5e /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_clear_bss.o)
 
-.debug_frame    0x00000000       0xc8
+.debug_frame    0x00000000       0xc0
  *(.debug_frame)
- .debug_frame   0x00000000       0xc8 TBoot.o
+ .debug_frame   0x00000000       0xc0 TBoot.o
 
-.debug_str      0x00000000      0x202
+.debug_str      0x00000000      0x208
  *(.debug_str)
- .debug_str     0x00000000      0x202 TBoot.o
-                                0x245 (size before relaxing)
- .debug_str     0x00000202        0x0 ../../AVR-Programming-Library/USART.o
+ .debug_str     0x00000000      0x208 TBoot.o
+                                0x24b (size before relaxing)
+ .debug_str     0x00000208        0x0 ../../AVR-Programming-Library/USART.o
 
-.debug_loc      0x00000000      0x2c6
+.debug_loc      0x00000000      0x286
  *(.debug_loc)
- .debug_loc     0x00000000      0x2c6 TBoot.o
+ .debug_loc     0x00000000      0x286 TBoot.o
 
 .debug_macinfo
  *(.debug_macinfo)
