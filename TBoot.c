@@ -48,7 +48,6 @@ unsigned char serialReceive(void)
   return UDR0; 
 }
 
-
 void serialTransmit(unsigned char byte)
 {
   loop_until_bit_is_set(UCSR0A, UDRE0);
@@ -70,11 +69,13 @@ unsigned char* getInputBuffer() {
 		serialReceive();
 		bufferIndex ++;
 	} while(input != '*');
+	//serialTransmit('d');
 	return inputBuffer;
 }
 
 unsigned char getHex(unsigned char* pageBuffer) {
 	unsigned char data = pageBuffer[pageIndex];
+	//serialTransmit(data);
 	if(data >= 'A') {
 		data -= 'A' - 10;
 	} else {
@@ -118,7 +119,7 @@ int main(void) {
 	    		unsigned char* pageBuffer = getInputBuffer();
 	    		
 	    		if(pageBuffer[0] != ':') {
-	    			serialTransmit('E:');
+	    			serialTransmit('E');
 	    			goto top;
 	    		}
 	    		
